@@ -22,4 +22,5 @@ If your computer is too new (1997+)
 you can give ./run.sh  a go, it requires DOSBOX
              ./run.bat (on Microsoft® Windows™ 9X and NT)
 
-Uses LoveDOS (https://github.com/rxi/lovedos/)
+Uses LoveDOS    | https://github.com/rxi/lovedos/
+     MoonScript | http://moonscript.org/
