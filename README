@@ -1,7 +1,7 @@
 WALLY.EXE
 
-Wally's Grand Adventure
-Olegfilm Games 1990
+WALLY'S GRAND ADVENTURE
+OLEGFILM GAMES 1990
 MS DOS
 
 - WARNING -
@@ -24,14 +24,14 @@ to LUA to be executed by WALLY.EXE.
 
 A simple "make all" should compile all files needed.
 You will need Moonscript installed.
-Instruction for installation on your operating system of choice available on the
-ARPANET at the address HTTP://MOONSCRIPT.ORG (Optimized for NCSA Mosaic)
+Instructions for installation on your operating system of choice are available
+on the ARPANET @ HTTP://MOONSCRIPT.ORG (Optimized for NCSA Mosaic)
 
 - FOR THOSE LIVING IN THE FUTURE -
 
 If your computer is too new you can give ./run.sh a go, it requires DOSBOX
-(./run.bat on Microsoft® Windows™ 9X and NT)
+(./run.bat on MICROSOFT® WINDOWS™ 9X and NT)
 Be sure to have compiled all files or downloaded a precompiled release!
 
-Uses LoveDOS    | https://github.com/rxi/lovedos/
-     MoonScript | http://moonscript.org/
+Uses LoveDOS    | HTTPS://GITHUB.COM/RXI/LOVEDOS/
+     MoonScript | HTTP://MOONSCRIPT.ORG/
