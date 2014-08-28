@@ -1,9 +1,16 @@
-lastcode = 0
+states = require "states"
+currentState = states.Title
+
+love.load = ->
+    return
 
 love.draw = ->
-    love.graphics.print "WALLY.EXE TEST", 20, 20
-    love.graphics.print "Code: " .. lastcode, 30, 30
+    currentState.draw!
+
+-- Control scheme
+-- Navigation: LEFT  203 | RIGHT     205 | UP 200 | DOWN 208
+-- Action    : SPACE  57 | RETURN     28
+-- Cancel    : ESC     1 | BACKSPACE  14
 
 love.keypressed = (code) ->
-    os.exit! if code == 1 -- Exit on ESC (temporary)
-    lastcode = code
+    return
