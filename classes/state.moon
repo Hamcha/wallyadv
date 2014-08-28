@@ -1,3 +1,4 @@
 class GameState
-    new: (drawFn) =>
-        @draw = drawFn
+    update: (dt) -> return
+    draw: -> return
+    keypressed: (code) -> return
