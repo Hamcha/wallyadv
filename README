@@ -17,10 +17,21 @@ Featuring IRC humor and off-the-jar one-liners, challenging, easy non-well
 thoughtout puzzles, travel to exotic locations around Taiwan, high resolution
 CGA graphics, and more!
 
+- BUILDING FROM SOURCE -
+
+Wally's Grand Adventure source is written in Moonscript, but has to be compiled
+to LUA to be executed by WALLY.EXE.
+
+A simple "make all" should compile all files needed.
+You will need Moonscript installed.
+Instruction for installation on your operating system of choice available on the
+ARPANET at the address HTTP://MOONSCRIPT.ORG (Optimized for NCSA Mosaic)
+
 - FOR THOSE LIVING IN THE FUTURE -
-If your computer is too new (1997+)
-you can give ./run.sh  a go, it requires DOSBOX
-             ./run.bat (on Microsoft® Windows™ 9X and NT)
+
+If your computer is too new you can give ./run.sh a go, it requires DOSBOX
+(./run.bat on Microsoft® Windows™ 9X and NT)
+Be sure to have compiled all files or downloaded a precompiled release!
 
 Uses LoveDOS    | https://github.com/rxi/lovedos/
      MoonScript | http://moonscript.org/
