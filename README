@@ -1,10 +1,25 @@
 WALLY.EXE
 
 Wally's Grand Adventure
-OlegFilms 1990
+Olegfilm Games 1990
 MS DOS
 
 - WARNING -
 Requires MS DOS and a Pentium MMX or any i586 compatible CPU
+
+- DESCRIPTION -
+
+In the land of Taiwan, Wally Pfiffer, a 38 year old autistic programmer with
+dreams of hot Asian women and being free to live a life in communist solitude
+set off to do one thing please his friends by taking a selfie and unlike all the
+other "selfies", this one's in Taiwan! Another Chinese game from Olegfilm Games!
+Featuring IRC humor and off-the-jar one-liners, challenging, easy non-well
+thoughtout puzzles, travel to exotic locations around Taiwan, high resolution
+EGA graphics, and more!
+
+- FOR THOSE LIVING IN THE FUTURE -
+If your computer is too new (1997+)
+you can give ./run.sh  a go, it requires DOSBOX
+             ./run.bat (on Microsoft® Windows™ 9X and NT)
 
 Uses LoveDOS (https://github.com/rxi/lovedos/)
