@@ -1,4 +1,4 @@
-export states = require "states"
+export states = require "./utils/states"
 
 love.load = ->
     states.current = states.Title

@@ -1,7 +1,7 @@
 class States
     -- Game states
-    Title: require "states/title"
-    Game:  require "states/game"
+    Title: require "./states/title"
+    Game:  require "./states/game"
 
     -- Current state
     current: nil
