@@ -2,9 +2,9 @@ class Player
     position: 0
     inventory: {}
     vars: {}
-    loadGame: ->
+    loadGame: =>
         --todo Load savegame
         return
-    saveGame: ->
+    saveGame: =>
         --todo Write savegame
         return
