@@ -27,6 +27,14 @@ You will need Moonscript installed.
 Instructions for installation on your operating system of choice are available
 on the ARPANET @ HTTP://MOONSCRIPT.ORG (Optimized for NCSA Mosaic)
 
+If you want to build a source-free (only compiled LUA scripts and other required
+files) build, do "make build-release"
+
+We also automated archiving, "make build-archive" will build everything (same
+as doing "make build-release") and create a compressed tarball (wally.tgz,
+suitable for GNU/Linux and other *NIX Operating systems) and a zip file
+(wally.zip, suitable for the MICROSOFT® WINDOWS™ Operating systems and MS DOS)
+
 - FOR THOSE LIVING IN THE FUTURE -
 
 If your computer is too new you can give ./run.sh a go, it requires DOSBOX
