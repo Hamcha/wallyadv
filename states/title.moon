@@ -13,7 +13,6 @@ Title.draw = ->
 
     -- Option text
     love.graphics.print "Discover Taiwan (New save)", 20, 30
-
     love.graphics.print "Continue from last time", 20, 40
     love.graphics.print "Go home", 20, 50
 
