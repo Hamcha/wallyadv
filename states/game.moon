@@ -13,4 +13,7 @@ Game.load = =>
 Game.draw = =>
     currentScript\draw!
 
+Game.update = (dt) =>
+    currentScript\update dt
+
 Game
