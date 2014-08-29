@@ -1,14 +1,14 @@
-states = require "states"
-currentState = states.Title
+export states = require "states"
 
 love.load = ->
-    return
+    states.current = states.Title
+    states.current.load!
 
 love.update = (dt) ->
-    currentState.update dt
+    states.current.update dt
 
 love.draw = ->
-    currentState.draw!
+    states.current.draw!
 
 love.keypressed = (code) ->
-    currentState.keypressed code
+    states.current.keypressed code

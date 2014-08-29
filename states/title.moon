@@ -22,5 +22,14 @@ Title.draw = ->
 Title.keypressed = (code) ->
     option = option - 1 if code == Input.Up and option > 0
     option = option + 1 if code == Input.Down and option < 2
+    if Input.isAction code
+        switch option
+            when 0 -- New Game
+                states\switchTo "game"
+            when 1 -- Load
+                --todo
+                return
+            when 2 -- Exit
+                os.exit!
 
 Title

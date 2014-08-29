@@ -3,10 +3,7 @@ Player = require "../classes/player"
 
 Game = GameState!
 
-Game.load = ->
-    return
-
 Game.draw = ->
-    return
+    love.graphics.print "INGAME!", 10, 10
 
 Game
