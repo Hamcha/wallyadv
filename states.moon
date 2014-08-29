@@ -9,7 +9,7 @@ class States
     -- State-changing methods
     switchTo: (newState) =>
         @current.unload!
-        @current = require "states/" .. newState
+        @current = newState
         @current.load!
 
 States!

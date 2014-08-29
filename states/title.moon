@@ -24,7 +24,7 @@ Title.keypressed = (code) =>
     if Input.isAction code
         switch option
             when 0 -- New Game
-                states\switchTo "game"
+                states\switchTo states.Game
             when 1 -- Load
                 --todo
                 return
