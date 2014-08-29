@@ -2,13 +2,13 @@ export states = require "states"
 
 love.load = ->
     states.current = states.Title
-    states.current.load!
+    states.current\load!
 
 love.update = (dt) ->
-    states.current.update dt
+    states.current\update dt
 
 love.draw = ->
-    states.current.draw!
+    states.current\draw!
 
 love.keypressed = (code) ->
-    states.current.keypressed code
+    states.current\keypressed code

@@ -3,10 +3,9 @@ Input = require "../utils/input"
 
 -- NEW GAME (0) - CONTINUE (1) - EXIT (2)
 option = 0
-saveexists = false
 
 Title = GameState!
-Title.draw = ->
+Title.draw = =>
     -- Header and footer
     love.graphics.print "Wally's Grand Adventure", 10, 10
     love.graphics.print "Olegfilm Games", 205, 190
@@ -19,7 +18,7 @@ Title.draw = ->
     -- Option cursor
     love.graphics.print ">", 10, 30+option*10
 
-Title.keypressed = (code) ->
+Title.keypressed = (code) =>
     option = option - 1 if code == Input.Up and option > 0
     option = option + 1 if code == Input.Down and option < 2
     if Input.isAction code
