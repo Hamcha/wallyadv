@@ -8,13 +8,11 @@ class Script
         @pausestart  = 0    -- Last pause call time
         @charspeed   = 20   -- How many character per second
         @maxinput    = 0    -- Where we have come so far
+        @pauseamount = 1    -- How much to wait for a pause call
         table.insert @lines, line for line in io.lines "./scripts/" .. name .. ".txt"
     draw: =>
         currentInputState = 0
         currentScreenLine = 0
-        -- Debug info, take out when everything works
-        love.graphics.print @currentline .. " " .. @inputstate, 0, 0
-        love.graphics.print @timepassed, 0, 190
         for i, line in ipairs @lines
             continue if i < @clearpos -- Too soon? Go ahead!
             break if i > @currentline -- Too far? Go out!
@@ -42,9 +40,16 @@ class Script
                     when "CLEAR"
                         if i == @currentline
                             @clearpos = i
+                            @inputstate = 0
                             @nextLine!
-                            return
+                            break
 
+                    when "PAUSE"
+                        if i == @currentline
+                            if @timepassed > @pauseamount
+                                @nextLine!
+                            else
+                                break
                     -- Unknown command, throw error
                     else
                         love.graphics.print "Unrecognized command: " .. command, 10, (currentScreenLine + 1) * 10
@@ -60,6 +65,9 @@ class Script
             else
             -- If we already "printed" it just draw it
                 love.graphics.print line, 10, currentScreenLine * 10
+        -- Debug info, take out when everything works
+        love.graphics.setColor 8
+        love.graphics.print @currentline .. " " .. @inputstate .. " " .. currentInputState, 0, 0
 
     update: (dt) =>
         @timepassed += dt
