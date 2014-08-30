@@ -8,14 +8,15 @@ class Cutscene
         @pausestart  = 0    -- Last pause call time
         @charspeed   = 25   -- How many character per second
         @maxinput    = 0    -- Where we have come so far
-        @pauseamount = 1    -- How much to wait for a pause call
         @finished    = nil  -- On Cutscene Ended callback
+        @color       = 15   -- Text color
         @offset      = 0    -- Offset for sameline calls
         @lastlinelength = 0 -- Used for sameline calls
 
     addLine:     (text) => table.insert @lines, (i) -> @line     i, text
     addSameline: (text) => table.insert @lines, (i) -> @sameline i, text, #@lines
     addPause:  (amount) => table.insert @lines, (i) -> @pause    i, amount
+    addSpeed:  (amount) => table.insert @lines, (i) -> @setspeed i, amount
     addClear: => table.insert @lines, (i) -> @clear i
     addInput: => table.insert @lines, (i) -> @input i
     addEnd:   => table.insert @lines, (i) -> @cutend!
@@ -80,13 +81,13 @@ class Cutscene
 
     line: (i, line) =>
         line = "" if line == nil
-        @currentScreenLine += 1      -- Advance one line
-        love.graphics.setColor 15   -- Set color to white (might change)
+        love.graphics.setColor @color   -- Set text color
+        @currentScreenLine += 1         -- Advance one line
         -- Is it the current line? (Typewriter logic)
         if i == @currentline
             subline = string.sub line, 0, @timepassed * @charspeed
             love.graphics.print subline, 10 + @offset, @currentScreenLine * 10
-            @nextLine! if @timepassed > (string.len line) / @charspeed
+            @nextLine! if (string.len subline) >= (string.len line)
         else
         -- If we already "printed" it just draw it
             love.graphics.print line, 10 + @offset, @currentScreenLine * 10
@@ -99,4 +100,10 @@ class Cutscene
         @offset = @lastlinelength * 10
         @line i, line
         @offset = 0
+        return true
+
+    setspeed: (i, amount) =>
+        if i == @currentline
+            @charspeed = amount
+            @nextLine!
         return true
