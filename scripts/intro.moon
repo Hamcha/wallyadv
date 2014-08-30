@@ -13,9 +13,9 @@ input!
 clear!
 line "Your internet friends have requested"
 line "an..."
-pause 0.5
-line "interesting picture of you,"
-pause 0.5
+pause 0.3
+sameline "interesting picture of you,"
+pause 0.3
 line "and you've willingly obliged, but"
 line "theres one problem."
 input!

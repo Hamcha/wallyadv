@@ -31,8 +31,6 @@ inspect "extra large mayonnaise cup", =>
 
 use "extra large mayonnaise cup", =>
     line "Game Saved"
-    line "Uh, that's handy, let's make it more"
-    line "obvious"
     @switch\set "canSave", true
 
 take "extra large mayonnaise cup", =>

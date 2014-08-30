@@ -10,77 +10,25 @@ class Cutscene
         @maxinput    = 0    -- Where we have come so far
         @pauseamount = 1    -- How much to wait for a pause call
         @finished    = nil  -- On Cutscene Ended callback
+        @offset      = 0    -- Offset for sameline calls
+        @lastlinelength = 0 -- Used for sameline calls
 
-    addLine: (text) =>
-        text = "" if text == nil
-        table.insert @lines, text
-    addPause: (amount) => table.insert @lines, ".PAUSE"
-    addClear: => table.insert @lines, ".CLEAR"
-    addInput: => table.insert @lines, ".INPUT"
-    addEnd:   => table.insert @lines, ".END"
+    addLine:     (text) => table.insert @lines, (i) -> @line     i, text
+    addSameline: (text) => table.insert @lines, (i) -> @sameline i, text, #@lines
+    addPause:  (amount) => table.insert @lines, (i) -> @pause    i, amount
+    addClear: => table.insert @lines, (i) -> @clear i
+    addInput: => table.insert @lines, (i) -> @input i
+    addEnd:   => table.insert @lines, (i) -> @cutend!
 
     draw: =>
         --todo Consider switching to a function-based approach
-        currentInputState = 0
-        currentScreenLine = 0
+        @currentInputState = 0
+        @currentScreenLine = 0
         for i, line in ipairs @lines
             continue if i < @clearpos -- Too soon? Go ahead!
-            break if i > @currentline -- Too far? Go out!
-
-            -- Is a command?
-            if (string.sub line, 0, 1) == "."
-                -- Command parsing logic here
-                command = string.sub line, 2, (string.len line)
-                switch command
-                    -- .INPUT -- Require user to press ACTION to continue
-                    when "INPUT"
-                        currentInputState += 1
-                        -- Set current inputstate target
-                        @maxinput = currentInputState
-                        -- Show prompt if needed
-                        if @inputstate < currentInputState
-                            love.graphics.setColor 8 -- Grey color
-                            love.graphics.print "- Press ACTION -", 10, (currentScreenLine + 1) * 10
-                            break
-                        -- Pressed? Continue!
-                        if i == @currentline
-                            @nextLine!
-
-                    -- .CLEAR -- Clear the screen
-                    when "CLEAR"
-                        if i == @currentline
-                            @clearpos = i
-                            @inputstate = 0
-                            @nextLine!
-                            break
-
-                    -- .PAUSE -- Pauses for a determined amount of time
-                    when "PAUSE"
-                        if i == @currentline
-                            if @timepassed > @pauseamount
-                                @nextLine!
-                            else
-                                break
-
-                    -- .END -- Finish the cutscene
-                    when "END"
-                        @finished! unless @finished == nil
-                        break
-                    -- Unknown command, throw error
-                    else
-                        love.graphics.print "Unrecognized command: " .. command, 10, (currentScreenLine + 1) * 10
-                continue
-
-            currentScreenLine += 1      -- Advance one line
-            love.graphics.setColor 15   -- Set color to white (might change)
-            -- Is it the current line? (Typewriter logic)
-            if i == @currentline
-                subline = string.sub line, 0, @timepassed * @charspeed
-                love.graphics.print subline, 10, currentScreenLine * 10
-                @nextLine! if @timepassed > (string.len line) / @charspeed
-            else
-            -- If we already "printed" it just draw it
-                love.graphics.print line, 10, currentScreenLine * 10
+            break if i > @currentline -- Too far?  Go out!
+            cancontinue = line i
+            break unless cancontinue
 
     update: (dt) =>
         @timepassed += dt
@@ -93,3 +41,62 @@ class Cutscene
         @inputstate += 1 if @inputstate < @maxinput
 
     atEnd: (cb) => @finished = cb
+
+    -- Commands
+
+    input: (i) =>
+        @currentInputState += 1
+        -- Set current inputstate target
+        @maxinput = @currentInputState
+        -- Show prompt if needed
+        if @inputstate < @currentInputState
+            love.graphics.setColor 8 -- Grey color
+            love.graphics.print "- Press ACTION -", 10, (@currentScreenLine + 1) * 10
+            return false
+        -- Pressed? Continue!
+        if i == @currentline
+            @nextLine!
+        return true
+
+    pause: (i, amount) =>
+        if i == @currentline
+            if @timepassed > amount
+                @nextLine!
+            else
+                return false
+        return true
+
+    clear: (i) =>
+        if i == @currentline
+            @clearpos = i
+            @inputstate = 0
+            @nextLine!
+            return false
+        return true
+
+    cutend: =>
+        @finished! unless @finished == nil
+        return false
+
+    line: (i, line) =>
+        line = "" if line == nil
+        @currentScreenLine += 1      -- Advance one line
+        love.graphics.setColor 15   -- Set color to white (might change)
+        -- Is it the current line? (Typewriter logic)
+        if i == @currentline
+            subline = string.sub line, 0, @timepassed * @charspeed
+            love.graphics.print subline, 10 + @offset, @currentScreenLine * 10
+            @nextLine! if @timepassed > (string.len line) / @charspeed
+        else
+        -- If we already "printed" it just draw it
+            love.graphics.print line, 10 + @offset, @currentScreenLine * 10
+
+        @lastlinelength = string.len line
+        return true
+
+    sameline: (i, line, id) =>
+        @currentScreenLine -= 1
+        @offset = @lastlinelength * 10
+        @line i, line
+        @offset = 0
+        return true
