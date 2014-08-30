@@ -1,22 +1,27 @@
 GameState = require "../classes/state"
 Player    = require "../classes/player"
 Input     = require "../utils/input"
-Script    = require "../classes/script"
+Cutscene  = require "../classes/cutscene"
 
 Game = GameState!
 
-currentScript = nil
+cutscene = nil
+finished = false
 
 Game.load = =>
-    currentScript = Script "intro"
+    cutscene = Cutscene "intro"
+    cutscene\atEnd => finished = true
 
 Game.draw = =>
-    currentScript\draw!
+    if finished
+        love.graphics.print "FINISHED", 10, 10
+    else
+        cutscene\draw!
 
 Game.update = (dt) =>
-    currentScript\update dt
+    cutscene\update dt
 
 Game.keypressed = (code) =>
-    currentScript\next! if Input.isAction code
+    cutscene\next! if Input.isAction code
 
 Game

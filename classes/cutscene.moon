@@ -1,4 +1,4 @@
-class Script
+class Cutscene
     new: (name) =>
         @lines = {}         -- Lines in the script
         @timepassed  = 0    -- Time passed since last reset (for characters)
@@ -9,6 +9,7 @@ class Script
         @charspeed   = 25   -- How many character per second
         @maxinput    = 0    -- Where we have come so far
         @pauseamount = 1    -- How much to wait for a pause call
+        @finished    = nil  -- On Cutscene Ended callback
         table.insert @lines, line for line in io.lines "./scripts/" .. name .. ".txt"
     draw: =>
         currentInputState = 0
@@ -52,6 +53,10 @@ class Script
                             else
                                 break
 
+                    -- .END -- Finish the cutscene
+                    when "END"
+                        @finished! unless @finished == nil
+                        break
                     -- Unknown command, throw error
                     else
                         love.graphics.print "Unrecognized command: " .. command, 10, (currentScreenLine + 1) * 10
@@ -67,9 +72,6 @@ class Script
             else
             -- If we already "printed" it just draw it
                 love.graphics.print line, 10, currentScreenLine * 10
-        -- Debug info, take out when everything works
-        love.graphics.setColor 8
-        love.graphics.print @currentline .. " " .. @inputstate .. " " .. currentInputState, 0, 0
 
     update: (dt) =>
         @timepassed += dt
@@ -80,3 +82,5 @@ class Script
 
     next: =>
         @inputstate += 1 if @inputstate < @maxinput
+
+    atEnd: (cb) => @finished = cb
