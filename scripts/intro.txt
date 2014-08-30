@@ -2,7 +2,7 @@ Welcome to China.
 .INPUT
 
 You've finished unpacking most of
-your belongings, well the ones you
+your belongings... well the ones you
 brought with you for your three weeks
 stay.
 .INPUT

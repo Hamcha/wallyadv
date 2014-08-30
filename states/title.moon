@@ -2,7 +2,7 @@ GameState = require "../classes/state"
 Input     = require "../utils/input"
 
 -- NEW GAME (0) - CONTINUE (1) - EXIT (2)
-option = 0
+option     = 0
 saveexists = false
 
 Title = GameState!
@@ -23,8 +23,8 @@ Title.draw = =>
 
 Title.keypressed = (code) =>
     step = if saveexists then 1 else 2
-    option = option - step if code == Input.Up and option > 0
-    option = option + step if code == Input.Down and option < 2
+    option -= step if code == Input.Up and option > 0
+    option += step if code == Input.Down and option < 2
     if Input.isAction code
         switch option
             when 0 -- New Game

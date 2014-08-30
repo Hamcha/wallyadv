@@ -4,6 +4,6 @@ class Input
     Up: 200
     Down: 208
     isAction: (code) -> code == 57 or code == 28
-    isCancel: (code) -> code == 1 or code == 14
+    isCancel: (code) -> code == 1  or code == 14
 
 Input!
