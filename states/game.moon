@@ -16,4 +16,7 @@ Game.draw = =>
 Game.update = (dt) =>
     currentScript\update dt
 
+Game.keypressed = (code) =>
+    currentScript\next! if Input.isAction code
+
 Game
