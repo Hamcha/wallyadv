@@ -14,14 +14,10 @@ class Cutscene
     addLine: (text) =>
         text = "" if text == nil
         table.insert @lines, text
-    addPause: (amount) =>
-        table.insert @lines, ".PAUSE"
-    addClear: =>
-        table.insert @lines, ".CLEAR"
-    addInput: =>
-        table.insert @lines, ".INPUT"
-    addEnd: =>
-        table.insert @lines, ".END"
+    addPause: (amount) => table.insert @lines, ".PAUSE"
+    addClear: => table.insert @lines, ".CLEAR"
+    addInput: => table.insert @lines, ".INPUT"
+    addEnd:   => table.insert @lines, ".END"
 
     draw: =>
         --todo Consider switching to a function-based approach
