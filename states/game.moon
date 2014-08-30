@@ -5,23 +5,24 @@ Cutscene  = require "../classes/cutscene"
 
 Game = GameState!
 
+playingCutscene = true
 cutscene = nil
 finished = false
 
 Game.load = =>
     cutscene = Cutscene "intro"
-    cutscene\atEnd => finished = true
+    cutscene\atEnd => playingCutscene = false
 
 Game.draw = =>
-    if finished
-        love.graphics.print "FINISHED", 10, 10
-    else
-        cutscene\draw!
+    -- Playing cutscene? Just forward events
+    return cutscene\draw! if playingCutscene
 
 Game.update = (dt) =>
-    cutscene\update dt
+    -- Playing cutscene? Just forward events
+    return cutscene\update dt if playingCutscene
 
 Game.keypressed = (code) =>
-    cutscene\next! if Input.isAction code
+    -- Playing cutscene? Just forward events
+    return cutscene\next! if playingCutscene and Input.isAction code
 
 Game

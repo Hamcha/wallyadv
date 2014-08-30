@@ -1,0 +1,60 @@
+E You are standing in a small hotel
+E sized accommodation with one bed.
+
+A Look Around
+AE The room is worn,
+AE it looks like you've really budgeted,
+AE sitting on the desk at the far corner
+AE of the room you see, [your laptop] and
+AE an [extra large mayonnaise cup],
+AE to the right of you, sitting beside a
+AE curtain covered window is your [bed],
+AE beside it a [blood stain],
+AE and [the exit]
+
+I blood stain
+AE heaping stain of coagulated blood...
+AE well, it is an all female dormatory.
+
+I bed
+AE small twinsized bunkbed, sometimes
+AE its nice to catch up on some sleep.
+
+I extra large mayonnaise cup
+AE Your trust extra large mayonaise cup,
+AE you never leave without it.
+AE The label says it grants you magical
+AE powers. You should try it.
+
+U extra large mayonnaise cup
+AE Game Saved
+AE Uh, that's handy, let's make it more
+AE obvious
+SWON canSave
+
+T extra large mayonnaise cup
+SRAND
+AE An every day part of an healthy diet.
+ORAND
+AE Can't survive without this.
+ORAND
+AE How else would my daily life function.
+ERAND
+INVADD mayo
+
+I your laptop
+AE That keyboard and track pad
+AE are disgusting...
+
+U your laptop
+PLAY irclog
+
+U the exit
+INVIF mayo
+AE Well I have everything I need,
+AE let's go take a look around.
+GOTO hallway
+ELSE
+AE Woah, woah, I'm forgetting something
+AE pretty damn important...
+ENDIF
