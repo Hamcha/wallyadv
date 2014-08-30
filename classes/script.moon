@@ -6,7 +6,7 @@ class Script
         @inputstate  = 0    -- How many time did we advance?
         @clearpos    = 1    -- Last clear call line
         @pausestart  = 0    -- Last pause call time
-        @charspeed   = 20   -- How many character per second
+        @charspeed   = 25   -- How many character per second
         @maxinput    = 0    -- Where we have come so far
         @pauseamount = 1    -- How much to wait for a pause call
         table.insert @lines, line for line in io.lines "./scripts/" .. name .. ".txt"
@@ -44,12 +44,14 @@ class Script
                             @nextLine!
                             break
 
+                    -- .PAUSE -- Pauses for a determined amount of time
                     when "PAUSE"
                         if i == @currentline
                             if @timepassed > @pauseamount
                                 @nextLine!
                             else
                                 break
+
                     -- Unknown command, throw error
                     else
                         love.graphics.print "Unrecognized command: " .. command, 10, (currentScreenLine + 1) * 10
