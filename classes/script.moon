@@ -16,7 +16,8 @@ class Script
         love.graphics.print @currentline .. " " .. @inputstate, 0, 0
         love.graphics.print @timepassed, 0, 190
         for i, line in ipairs @lines
-            break if i > @currentline
+            continue if i < @clearpos -- Too soon? Go ahead!
+            break if i > @currentline -- Too far? Go out!
 
             -- Is a command?
             if (string.sub line, 0, 1) == "."
@@ -34,10 +35,19 @@ class Script
                             love.graphics.print "- Press ACTION -", 10, (currentScreenLine + 1) * 10
                             break
                         -- Pressed? Continue!
-                        @nextLine! if i == @currentline
+                        if i == @currentline
+                            @nextLine!
+
+                    -- .CLEAR -- Clear the screen
+                    when "CLEAR"
+                        if i == @currentline
+                            @clearpos = i
+                            @nextLine!
+                            return
+
                     -- Unknown command, throw error
                     else
-                        love.graphics.print "Unrecognized command: " .. command, 10, currentScreenLine * 10
+                        love.graphics.print "Unrecognized command: " .. command, 10, (currentScreenLine + 1) * 10
                 continue
 
             currentScreenLine += 1      -- Advance one line
