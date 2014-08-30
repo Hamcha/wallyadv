@@ -1,3 +1,5 @@
+require "../utils/roomaker"
+
 onEnter =>
     line "You are standing in a small hotel"
     line "sized accommodation with one bed."
@@ -31,14 +33,14 @@ use "extra large mayonnaise cup", =>
     line "Game Saved"
     line "Uh, that's handy, let's make it more"
     line "obvious"
-    Switch\on "canSave"
+    @switch\set "canSave", true
 
 take "extra large mayonnaise cup", =>
     val = random 3
     if val == 1 then line "An every day part of an healthy diet."
     if val == 2 then line "Can't survive without this."
     if val == 3 then line "How else would my daily life function."
-    Inventory\add "mayo"
+    @inventory\add "mayo"
 
 inspect "your laptop", =>
     line "That keyboard and track pad"
@@ -48,7 +50,7 @@ use "your laptop", =>
     cutscene "irclog"
 
 use "the exit", =>
-    if Inventory\has "mayo"
+    if @inventory\has "mayo"
         line "Well I have everything I need,"
         line "let's go take a look around."
         goto "hallway"
