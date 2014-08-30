@@ -45,7 +45,26 @@ inspect "your laptop", =>
     line "are disgusting..."
 
 use "your laptop", =>
-    cutscene "irclog"
+    line "An old IRC log is left open on your "
+    line "laptop from the other night"
+    input!
+    clear!
+    line "<jnerula> Nevermind its too goddamn"
+    line " hot, I guess I'll venture forth into"
+    line " the unknown"
+    line "<jnerula> Find some water and a"
+    line " fucking towel"
+    line "<dx> jnerula: take pics"
+    line "<dx> jnerula: and selfies"
+    line "<dx> jnerula: and shoe on head"
+    line "<dx> jnerula: and sharpie in pooper"
+    line "<jnerula> You cant tell me what to do"
+    line "<dx> jnerula: i am your father"
+    line "<jnerula> I'll take one picture that"
+    line " is all of those things"
+    line "<dx> ok"
+    line "<Hamcha> noted"
+    line "<Hamcha> now go do it"
 
 use "the exit", =>
     if @inventory\has "mayo"
