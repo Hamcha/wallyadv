@@ -1,5 +1,5 @@
 class Cutscene
-    new: (name) =>
+    new: () =>
         @lines = {}         -- Lines in the script
         @timepassed  = 0    -- Time passed since last reset (for characters)
         @currentline = 1    -- Current line that's being typewritten
@@ -10,8 +10,21 @@ class Cutscene
         @maxinput    = 0    -- Where we have come so far
         @pauseamount = 1    -- How much to wait for a pause call
         @finished    = nil  -- On Cutscene Ended callback
-        table.insert @lines, line for line in io.lines "./scripts/" .. name .. ".txt"
+
+    addLine: (text) =>
+        text = "" if text == nil
+        table.insert @lines, text
+    addPause: (amount) =>
+        table.insert @lines, ".PAUSE"
+    addClear: =>
+        table.insert @lines, ".CLEAR"
+    addInput: =>
+        table.insert @lines, ".INPUT"
+    addEnd: =>
+        table.insert @lines, ".END"
+
     draw: =>
+        --todo Consider switching to a function-based approach
         currentInputState = 0
         currentScreenLine = 0
         for i, line in ipairs @lines

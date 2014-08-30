@@ -1,7 +1,6 @@
 GameState = require "../classes/state"
 Player    = require "../classes/player"
 Input     = require "../utils/input"
-Cutscene  = require "../classes/cutscene"
 
 Game = GameState!
 
@@ -10,7 +9,7 @@ cutscene = nil
 finished = false
 
 Game.load = =>
-    cutscene = Cutscene "intro"
+    cutscene = require "../scripts/intro"
     cutscene\atEnd => playingCutscene = false
 
 Game.draw = =>

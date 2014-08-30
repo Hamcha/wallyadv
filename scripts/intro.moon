@@ -1,4 +1,4 @@
-require "../classes/cutscene"
+require "../utils/cutmaker"
 
 line "Welcome to China."
 input!
@@ -53,4 +53,5 @@ line "YOU'RE WILLING TO GO OUT OF YOUR WAY"
 line "TO GET THESE STUPID OBJECTS FOR THEM,"
 line "OKAY HAVE FUN."
 input!
-end!
+
+cutend!
