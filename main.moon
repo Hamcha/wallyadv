@@ -1,7 +1,7 @@
 export states = require "./utils/states"
 
 love.load = ->
-    states.current = states.Title
+    states.current = states.Game
     states.current\load!
 
 love.update = (dt) ->

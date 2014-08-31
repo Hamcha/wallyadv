@@ -70,7 +70,9 @@ use "the exit", =>
     if @inventory\has "mayo"
         line "Well I have everything I need,"
         line "let's go take a look around."
-        goto "hallway"
+        moveto "hallway"
     else
         line "Woah, woah, I'm forgetting something"
         line "pretty damn important..."
+
+endroom

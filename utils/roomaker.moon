@@ -8,3 +8,4 @@ inspect = NewRoom\addInspect
 use     = NewRoom\addUse
 take    = NewRoom\addTake
 onEnter = NewRoom\onEnter
+endroom = NewRoom
