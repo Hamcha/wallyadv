@@ -1,4 +1,14 @@
-require "../utils/roomaker"
+import
+    roomstart
+    roomend
+    onEnter
+    action
+    inspect
+    use
+    take
+    from require "../utils/roomaker"
+
+roomstart!
 
 onEnter =>
     line "You are standing in a small hotel"
@@ -75,4 +85,4 @@ use "the exit", =>
         line "Woah, woah, I'm forgetting something"
         line "pretty damn important..."
 
-endroom
+roomend!

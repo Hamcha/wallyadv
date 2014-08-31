@@ -10,11 +10,10 @@ room = nil
 finished = false
 
 Game.load = =>
-    room = require "../places/room"
-    --cutscene = require "../scripts/intro"
-    --cutscene\atEnd =>
-    --    room = require "../places/room"
-    playingCutscene = false
+    cutscene = require "../scripts/intro"
+    cutscene\atEnd =>
+        room = require "../places/room"
+        playingCutscene = false
 
 Game.draw = =>
     -- Playing cutscene? Just forward events

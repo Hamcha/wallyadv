@@ -1,11 +1,14 @@
 Room = require "../classes/room"
 
-NewRoom = Room!
+NewRoom = nil
 
-export *
-action  = NewRoom\addAction
-inspect = NewRoom\addInspect
-use     = NewRoom\addUse
-take    = NewRoom\addTake
-onEnter = NewRoom\onEnter
-endroom = NewRoom
+roommaker =
+    action:  NewRoom\addAction
+    inspect: NewRoom\addInspect
+    use:     NewRoom\addUse
+    take:    NewRoom\addTake
+    onEnter: NewRoom\onEnter
+    roomstart: -> NewRoom = Room!
+    roomend:   -> NewRoom
+
+return roommaker

@@ -1,15 +1,17 @@
 Cutscene = require "../classes/cutscene"
 
-NewCutscene = Cutscene!
+NewCutscene = nil
 
-export *
-line  = NewCutscene\addLine
-pause = NewCutscene\addPause
-clear = NewCutscene\addClear
-input = NewCutscene\addInput
-setspeed = NewCutscene\addSpeed
-sameline = NewCutscene\addSameline
+cutmaker =
+    clear:          -> NewCutscene\addClear!
+    input:          -> NewCutscene\addInput!
+    line:     (txt) -> NewCutscene\addLine txt
+    pause:    (amt) -> NewCutscene\addPause amt
+    setspeed: (amt) -> NewCutscene\addSpeed!
+    sameline: (txt) -> NewCutscene\addSameline!
+    cutstart:       -> NewCutscene = Cutscene!
+    cutend: ->
+        NewCutscene\addEnd!
+        return NewCutscene
 
-cutend = =>
-    NewCutscene\addEnd!
-    return NewCutscene
+return cutmaker

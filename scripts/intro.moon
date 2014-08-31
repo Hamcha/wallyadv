@@ -1,4 +1,14 @@
-require "../utils/cutmaker"
+import
+    line
+    sameline
+    input
+    clear
+    pause
+    cutstart
+    cutend
+    from require "../utils/cutmaker"
+
+cutstart!
 
 line "Welcome to China."
 input!
