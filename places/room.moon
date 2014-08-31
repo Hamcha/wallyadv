@@ -41,14 +41,14 @@ inspect "extra large mayonnaise cup", =>
 
 use "extra large mayonnaise cup", =>
     line "Game Saved"
-    @switch\set "canSave", true
+    player.vars\set "canSave", true
 
 take "extra large mayonnaise cup", =>
     val = math.random 3
     if val == 1 then line "An every day part of an healthy diet."
     if val == 2 then line "Can't survive without this."
     if val == 3 then line "How else would my daily life function."
-    @inventory\add "mayo"
+    player.inventory\add "mayo"
 
 inspect "your laptop", =>
     line "That keyboard and track pad"

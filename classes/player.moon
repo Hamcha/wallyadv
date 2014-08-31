@@ -14,16 +14,16 @@ class Inventory
 
     has: (name) => @items[name] ~= nil and @items[name] > 0
 
-class Switch
-    new: => @switches = {}
-    set:  (name, value) => @switches[name] = value
-    get:  (name) => @switches[name]
-    ison: (name) => @switches[name] == true
+class Vars
+    new: => @vars = {}
+    set:  (name, value) => @vars[name] = value
+    get:  (name) => @vars[name]
+    ison: (name) => @vars[name] == true
 
 class Player
     new: =>
         @inventory = Inventory!
-        @switch    = Switch!
+        @vars      = Vars!
     loadGame: =>
         --todo Load savegame
         return
