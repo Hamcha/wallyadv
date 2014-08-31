@@ -1,14 +1,21 @@
 class Inventory
     new: => @items = {}
-    add: (name) =>
-        if @items[name]
-            @items[name] += 1
-        else
-            @items[name] = 1
+
+    add:  (name) => @addN name, 1
+    addN: (name, qty) =>
+        @items[name] = if @items[name] then @items[name] + qty else qty
+
+    removeAll: (name) => @items[name] = nil
+    remove:    (name) => @removeN name, 1
+    removeN:   (name, qty) =>
+        return unless @items[name] ~= nil
+        @items[name] -= qty
+        @removeAll name unless @items[name] > 0
+
+    has: (name) => @items[name] ~= nil and @items[name] > 0
 
 class Switch
-    new: =>
-        @switches = {}
+    new: => @switches = {}
     set:  (name, value) => @switches[name] = value
     get:  (name) => @switches[name]
     ison: (name) => @switches[name] == true

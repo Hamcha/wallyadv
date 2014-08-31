@@ -1,4 +1,5 @@
 export states = require "./utils/states"
+export player = (require "./classes/player")!
 
 love.load = ->
     states.current = states.Game
