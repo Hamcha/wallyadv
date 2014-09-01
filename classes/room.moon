@@ -1,3 +1,14 @@
+import
+    line
+    sameline
+    input
+    clear
+    pause
+    cutstart
+    cutend
+    call
+    from require "../utils/cutmaker"
+
 class Room
     new: =>
         @actions   = {}
@@ -5,11 +16,11 @@ class Room
         @use       = {}
         @take      = {}
         @entered   = nil
-    addAction:  (action) => table.insert @actions, action
-    addInspect: (action) => table.insert @inspect, action
-    addUse:     (action) => table.insert @use,     action
-    addTake:    (action) => table.insert @take,    action
-    onEnter:    (action) => @entered = action
+    addAction:  (name, action) => @actions[name] = @mkaction action
+    addInspect: (item, action) => @inspect[item] = @mkaction action
+    addUse:     (item, action) => @use[item]     = @mkaction action
+    addTake:    (item, action) => @take[item]    = @mkaction action
+    onEnter:          (action) => @entered       = @mkaction action
 
     draw: =>
         love.graphics.print "in room", 10, 10
@@ -18,3 +29,7 @@ class Room
         return
     keypressed: (code) =>
         return
+    mkaction: (action) =>
+        cutstart!
+        action!
+        cutend!

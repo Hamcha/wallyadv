@@ -107,3 +107,8 @@ class Cutscene
             @charspeed = amount
             @nextLine!
         return true
+
+    call: (i, fn) =>
+        if i == @currentline
+            return fn!
+        return true
