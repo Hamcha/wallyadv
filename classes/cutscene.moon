@@ -15,6 +15,7 @@ class Cutscene
 
     addLine:     (text) => table.insert @lines, (i) -> @line     i, text
     addSameline: (text) => table.insert @lines, (i) -> @sameline i, text, #@lines
+    addCall:       (fn) => table.insert @lines, (i) -> @call     i, fn
     addPause:  (amount) => table.insert @lines, (i) -> @pause    i, amount
     addSpeed:  (amount) => table.insert @lines, (i) -> @setspeed i, amount
     addClear: => table.insert @lines, (i) -> @clear i
