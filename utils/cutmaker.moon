@@ -1,18 +1,16 @@
 Cutscene = require "../classes/cutscene"
 
-NewCutscene = nil
-
-cutmaker =
-    clear:          -> NewCutscene\addClear!
-    input:          -> NewCutscene\addInput!
-    line:     (txt) -> NewCutscene\addLine txt
-    pause:    (amt) -> NewCutscene\addPause amt
-    setspeed: (amt) -> NewCutscene\addSpeed!
-    sameline: (txt) -> NewCutscene\addSameline!
-    call:           -> NewCutscene\addCall!
-    cutstart:       -> NewCutscene = Cutscene!
-    cutend: ->
-        NewCutscene\addEnd!
-        return NewCutscene
-
-return cutmaker
+class CutsceneBuilder
+    new: =>
+        @cutscene = Cutscene!
+    clear:          => @cutscene\addClear!
+    input:          => @cutscene\addInput!
+    line:     (txt) => @cutscene\addLine txt
+    pause:    (amt) => @cutscene\addPause amt
+    setspeed: (amt) => @cutscene\addSpeed!
+    sameline: (txt) => @cutscene\addSameline!
+    call:           => @cutscene\addCall!
+    cutend:    =>
+        @cutscene\addEnd!
+        return @cutscene
+    moveto:         => return

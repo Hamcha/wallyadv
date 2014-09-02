@@ -1,15 +1,12 @@
 import
-    line
-    sameline
-    input
-    clear
-    pause
-    cutstart
-    cutend
-    call
-    from require "../utils/cutmaker"
-
-cutstart!
+    \line
+    \sameline
+    \input
+    \clear
+    \pause
+    \cutend
+    \call
+    from (require "../utils/cutmaker")!
 
 line "Welcome to China."
 input!

@@ -10,9 +10,8 @@ room = nil
 finished = false
 
 Game.load = =>
-    --cutscene = require "../scripts/intro"
-    --cutscene\atEnd =>
-    if true
+    cutscene = require "../scripts/intro"
+    cutscene\atEnd =>
         room = require "../places/room"
         room\enter!
         playingCutscene = false
