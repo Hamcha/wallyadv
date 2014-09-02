@@ -1,14 +1,10 @@
 Room = require "../classes/room"
 
-NewRoom = nil
-
-roommaker =
-    action:  (action, fn) -> NewRoom\addAction  action, fn
-    inspect: (object, fn) -> NewRoom\addInspect object, fn
-    use:     (object, fn) -> NewRoom\addUse     object, fn
-    take:    (object, fn) -> NewRoom\addTake    object, fn
-    onEnter:         (fn) -> NewRoom\onEnter    fn
-    roomstart: -> NewRoom = Room!
-    roomend:   -> NewRoom
-
-return roommaker
+class RoomBuilder
+    new: => @room = Room!
+    action:  (action, fn) => @room\addAction  action, fn
+    inspect: (object, fn) => @room\addInspect object, fn
+    use:     (object, fn) => @room\addUse     object, fn
+    take:    (object, fn) => @room\addTake    object, fn
+    onEnter:         (fn) => @room\onEnter    fn
+    roomend:              => @room

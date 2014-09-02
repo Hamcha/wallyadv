@@ -1,14 +1,11 @@
 import
-    roomstart
-    roomend
-    onEnter
-    action
-    inspect
-    use
-    take
-    from require "../utils/roomaker"
-
-roomstart!
+    \roomend
+    \onEnter
+    \action
+    \inspect
+    \use
+    \take
+    from (require "../utils/roomaker")!
 
 onEnter =>
     @line "You are standing in a small hotel"
