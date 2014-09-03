@@ -98,7 +98,7 @@ class Cutscene
 
     sameline: (i, line, id) =>
         @currentScreenLine -= 1
-        @offset = @lastlinelength * 10
+        @offset = @lastlinelength * 8
         @line i, line
         @offset = 0
         return true
