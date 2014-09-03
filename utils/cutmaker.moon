@@ -12,7 +12,7 @@ class CutsceneBuilder
     setspeed:  (amt) => @cutscene\addSpeed!
     sameline:  (txt) => @cutscene\addSameline!
     call:            => @cutscene\addCall!
-    unlock:      (i) => @parent\unlock i
+    unlock:      (i) => @cutscene\addUnlock @parent, i
     cutend: =>
         @cutscene\addEnd!
         return @cutscene

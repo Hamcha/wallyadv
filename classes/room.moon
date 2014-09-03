@@ -14,6 +14,7 @@ class Room
         @playingCutscene = false -- Are we playing a cutscene?
         @selectedOption  = 1     -- Which option is selected on the menu
         @maxOptionNum    = 1     -- Maximum option for input checks
+        @optionStatus    = 0     -- Menu status (Generic, item etc)
     addAction:  (name, action) => @actions[string.upper name] = @mkaction action, true
     addInspect: (item, action) => @inspect[string.upper item] = @mkaction action, true
     addUse:     (item, action) => @use[string.upper item]     = @mkaction action, true
@@ -62,6 +63,9 @@ class Room
 
         @selectedOption -= 1 if code == Input.Left and @selectedOption > 1
         @selectedOption += 1 if code == Input.Right and @selectedOption < @maxOptionNum
+
+        if Input.isAction code
+            return
 
     mkaction: (action, clear) =>
         cutbuilder = CutsceneBuilder!

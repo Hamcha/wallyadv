@@ -18,9 +18,10 @@ class Cutscene
     addCall:       (fn) => table.insert @lines, (i) -> @call     i, fn
     addPause:  (amount) => table.insert @lines, (i) -> @pause    i, amount
     addSpeed:  (amount) => table.insert @lines, (i) -> @setspeed i, amount
-    addClear: => table.insert @lines, (i) -> @clear i
-    addInput: => table.insert @lines, (i) -> @input i
-    addEnd:   => table.insert @lines, (i) -> @cutend!
+    addClear:  => table.insert @lines, (i) -> @clear i
+    addInput:  => table.insert @lines, (i) -> @input i
+    addEnd:    => table.insert @lines, (i) -> @cutend!
+    addUnlock: (room, idx) => table.insert @lines, (i) -> @unlock room, idx
 
     draw: =>
         --todo Consider switching to a function-based approach
@@ -112,4 +113,10 @@ class Cutscene
     call: (i, fn) =>
         if i == @currentline
             return fn!
+        return true
+
+    unlock: (room, idx) =>
+        if i == @currentline
+            room\unlock idx
+            @nextLine!
         return true
