@@ -8,16 +8,21 @@ class Room
         @inspect   = {} -- Inspect actions ("Inspect <obj>")
         @use       = {} -- Use actions     ("Use <obj>")
         @take      = {} -- Take actions    ("Take <obj>")
+        @locked    = {} -- Locked actions
         @entered         = nil   -- OnEnter cutscene
         @currentaction   = nil   -- Current cutscene
         @playingCutscene = false -- Are we playing a cutscene?
         @selectedOption  = 1     -- Which option is selected on the menu
         @maxOptionNum    = 1     -- Maximum option for input checks
-    addAction:  (name, action) => @actions[string.upper name] = @mkaction action
-    addInspect: (item, action) => @inspect[string.upper item] = @mkaction action
-    addUse:     (item, action) => @use[string.upper item]     = @mkaction action
-    addTake:    (item, action) => @take[string.upper item]    = @mkaction action
-    onEnter:          (action) => @entered                    = @mkaction action
+    addAction:  (name, action) => @actions[string.upper name] = @mkaction action, true
+    addInspect: (item, action) => @inspect[string.upper item] = @mkaction action, true
+    addUse:     (item, action) => @use[string.upper item]     = @mkaction action, true
+    addTake:    (item, action) => @take[string.upper item]    = @mkaction action, true
+    onEnter:          (action) => @entered                    = @mkaction action, false
+
+    addLocked:  (action) =>
+        table.insert @locked, action
+        return #@locked
 
     draw: =>
         -- Draw cutscene if there is an active one
@@ -26,10 +31,9 @@ class Room
 
         -- Draw menu
         printline = @currentaction.currentScreenLine + 2
-        actions = @getGenericActions!
         len = 0
         tlen = 0
-        for i, action in ipairs actions
+        for i, action in ipairs @getGenericActions!
             love.graphics.setColor 15
             if @selectedOption == i
                 love.graphics.rectangle "fill", 10 + 8 * len, 10 * printline - 2, (string.len action) * 8, 11
@@ -59,9 +63,13 @@ class Room
         @selectedOption -= 1 if code == Input.Left and @selectedOption > 1
         @selectedOption += 1 if code == Input.Right and @selectedOption < @maxOptionNum
 
-    mkaction: (action) =>
+    mkaction: (action, clear) =>
         cutbuilder = CutsceneBuilder!
+        cutbuilder\setParent self
         action cutbuilder
+        if clear
+            cutbuilder\input!
+            cutbuilder\clear!
         return cutbuilder\cutend!
 
     getGenericActions: =>
@@ -80,3 +88,5 @@ class Room
             table.insert list, "TAKE"
             break
         return list
+
+    unlock: (i) => @locked[i]!

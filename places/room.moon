@@ -5,6 +5,7 @@ import
     \inspect
     \use
     \take
+    \locked
     from (require "../utils/roomaker")!
 
 onEnter =>
@@ -30,26 +31,24 @@ inspect "bed", =>
     @line "small twinsized bunkbed, sometimes"
     @line "its nice to catch up on some sleep."
 
-inspect "extra large mayonnaise cup", =>
-    @line "Your trust extra large mayonaise cup,"
-    @line "you never leave without it."
-    @line "The label says it grants you magical"
-    @line "powers. You should try it."
-
-use "extra large mayonnaise cup", =>
+usemayo = locked use "extra large mayonnaise cup", =>
     @line "Game Saved"
     player.vars\set "canSave", true
 
-take "extra large mayonnaise cup", =>
+takemayo = locked take "extra large mayonnaise cup", =>
     val = math.random 3
     if val == 1 then @line "An every day part of an healthy diet."
     if val == 2 then @line "Can't survive without this."
     if val == 3 then @line "How else would my daily life function."
     player.inventory\add "mayo"
 
-inspect "your laptop", =>
-    @line "That keyboard and track pad"
-    @line "are disgusting..."
+inspect "extra large mayonnaise cup", =>
+    @line "Your trust extra large mayonaise cup,"
+    @line "you never leave without it."
+    @line "The label says it grants you magical"
+    @line "powers. You should try it."
+    @unlock usemayo
+    @unlock takemayo
 
 use "your laptop", =>
     @line "An old IRC log is left open on your "
@@ -72,6 +71,10 @@ use "your laptop", =>
     @line "<dx> ok"
     @line "<Hamcha> noted"
     @line "<Hamcha> now go do it"
+
+inspect "your laptop", =>
+    @line "That keyboard and track pad"
+    @line "are disgusting..."
 
 use "the exit", =>
     if player.inventory\has "mayo"

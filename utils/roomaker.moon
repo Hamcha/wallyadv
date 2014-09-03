@@ -6,5 +6,6 @@ class RoomBuilder
     inspect: (object, fn) => @room\addInspect object, fn
     use:     (object, fn) => @room\addUse     object, fn
     take:    (object, fn) => @room\addTake    object, fn
+    locked:  (fn)         => @room\addLocked  fn
     onEnter:         (fn) => @room\onEnter    fn
     roomend:              => @room
