@@ -13,12 +13,14 @@ class Room
         @currentaction   = nil   -- Current cutscene
         @playingCutscene = false -- Are we playing a cutscene?
         @selectedOption  = 1     -- Which option is selected on the menu
+        @selectedItem    = 1     -- Which item is selected on the submenu
         @maxOptionNum    = 1     -- Maximum option for input checks
-        @optionStatus    = 0     -- Menu status (Generic, item etc)
+        @maxItemNum      = 1     -- Maximum item for input checks
+        @currentMenu     = nil   -- Menu status (Generic, item etc)
     addAction:  (name, action) => @actions[string.upper name] = @mkaction action, true
-    addInspect: (item, action) => @inspect[string.upper item] = @mkaction action, true
-    addUse:     (item, action) => @use[string.upper item]     = @mkaction action, true
-    addTake:    (item, action) => @take[string.upper item]    = @mkaction action, true
+    addInspect: (item, action) => @inspect[item]              = @mkaction action, true
+    addUse:     (item, action) => @use[item]                  = @mkaction action, true
+    addTake:    (item, action) => @take[item]                 = @mkaction action, true
     onEnter:          (action) => @entered                    = @mkaction action, false
 
     addLocked:  (action) =>
@@ -36,20 +38,28 @@ class Room
         tlen = 0
         for i, action in ipairs @getGenericActions!
             love.graphics.setColor 15
-            if @selectedOption == i
-                love.graphics.rectangle "fill", 10 + 8 * len, 10 * printline - 2, (string.len action) * 8, 11
+            if (@currentMenu == nil and @selectedOption == i) or @currentMenu == action
+                love.graphics.rectangle "fill", 8 + 8 * len, 10 * printline - 2, (string.len action) * 8, 11
                 love.graphics.setColor 0
-            love.graphics.print action, 10 + 8 * len, 10 * printline
+            love.graphics.print action, 8 + 8 * len, 10 * printline
             len += (string.len action) + 1
             tlen += 1
         @maxOptionNum = tlen
+        return unless @currentMenu ~= nil
+        tlen = 0
+        printline += 1
+        for i, item in ipairs @getSpecificActions @currentMenu
+            love.graphics.setColor 15
+            if @selectedItem == i
+                love.graphics.print ">", 8, 10 * printline
+            love.graphics.print item, 16, 10 * printline
+            printline += 1
+            tlen += 1
+        @maxItemNum = tlen
 
     enter: =>
         -- Set onEnter cutscene as starting cutscene if there is one
-        @currentaction = @entered unless @entered == nil
-        @playingCutscene = true
-        @currentaction\atEnd (cut) ->
-            @playingCutscene = false
+        @play @entered unless @entered == nil
 
     update: (dt) =>
         -- Update cutscene if there is an active one
@@ -61,11 +71,29 @@ class Room
             @currentaction\next! if Input.isAction code and @currentaction ~= nil
             return
 
-        @selectedOption -= 1 if code == Input.Left and @selectedOption > 1
-        @selectedOption += 1 if code == Input.Right and @selectedOption < @maxOptionNum
+        if @currentMenu == nil
+            @selectedOption -= 1 if code == Input.Left and @selectedOption > 1
+            @selectedOption += 1 if code == Input.Right and @selectedOption < @maxOptionNum
+        else
+            @selectedItem -= 1 if code == Input.Up and @selectedItem > 1
+            @selectedItem += 1 if code == Input.Down and @selectedItem < @maxItemNum
+
 
         if Input.isAction code
-            return
+            -- Specific menu
+            if @currentMenu ~= nil
+                return
+            -- Generic menu
+            else
+                actions = @getGenericActions!
+                @currentMenu = actions[@selectedOption]
+                @selectedItem = 1
+                if @currentMenu ~= "INSPECT" and @currentMenu ~= "USE" and @currentMenu ~= "TAKE"
+                    @play @actions[@currentMenu]
+        if Input.isCancel code
+            -- Specific menu (goto generic)
+            if @currentMenu ~= nil
+                @currentMenu = nil
 
     mkaction: (action, clear) =>
         cutbuilder = CutsceneBuilder!
@@ -92,5 +120,19 @@ class Room
             table.insert list, "TAKE"
             break
         return list
+
+    getSpecificActions: (name) =>
+        list = {}
+        switch name
+            when "INSPECT" then table.insert list, k for k,v in pairs @inspect
+            when "USE"     then table.insert list, k for k,v in pairs @use
+            when "TAKE"    then table.insert list, k for k,v in pairs @take
+        return list
+
+    play: (cutscene) =>
+        @currentaction = cutscene
+        @playingCutscene = true
+        @currentaction\atEnd (cut) ->
+            @playingCutscene = false
 
     unlock: (i) => @locked[i]!
