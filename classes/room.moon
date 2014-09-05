@@ -85,6 +85,7 @@ class Room
                 item = (@getSpecificActions @currentMenu)[@selectedItem]
                 cutscene = @getSpecificCutscene @currentMenu, item
                 @play cutscene
+                @selectedItem = 1
                 @currentMenu = nil
             -- Generic menu
             else
@@ -93,6 +94,7 @@ class Room
                 @selectedItem = 1
                 if @currentMenu ~= "INSPECT" and @currentMenu ~= "USE" and @currentMenu ~= "TAKE"
                     @play @actions[@currentMenu]
+                    @selectedOption = 1
                     @currentMenu = nil
         if Input.isCancel code
             -- Specific menu (goto generic)
