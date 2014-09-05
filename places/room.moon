@@ -85,7 +85,7 @@ action "Look Around", =>
     @line "it looks like you've really budgeted,"
     @line "sitting on the desk at the far corner"
     @line "of the room you see, your laptop and"
-    @line "an extra large mayonnaise cup,to the"
+    @line "an extra large mayonnaise cup, to the"
     @line "right of you, sitting beside a"
     @line "curtain covered window is your bed,"
     @line "beside it a blood stain, and the exit"
