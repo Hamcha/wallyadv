@@ -82,7 +82,10 @@ class Room
         if Input.isAction code
             -- Specific menu
             if @currentMenu ~= nil
-                return
+                item = (@getSpecificActions @currentMenu)[@selectedItem]
+                cutscene = @getSpecificCutscene @currentMenu, item
+                @play cutscene
+                @currentMenu = nil
             -- Generic menu
             else
                 actions = @getGenericActions!
@@ -126,6 +129,12 @@ class Room
             when "USE"     then table.insert list, k for k,v in pairs @use
             when "TAKE"    then table.insert list, k for k,v in pairs @take
         return list
+
+    getSpecificCutscene: (action, item) =>
+        switch action
+            when "INSPECT" then @inspect[item]
+            when "USE"     then @use[item]
+            when "TAKE"    then @take[item]
 
     play: (cutscene) =>
         @currentaction = cutscene!
