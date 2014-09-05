@@ -21,7 +21,7 @@ class Cutscene
     addClear:  => table.insert @lines, (i) -> @clear i
     addInput:  => table.insert @lines, (i) -> @input i
     addEnd:    => table.insert @lines, (i) -> @cutend!
-    addUnlock: (room, idx) => table.insert @lines, (i) -> @unlock room, idx
+    addUnlock: (room, idx) => table.insert @lines, (i) -> @unlock i, room, idx
 
     draw: =>
         --todo Consider switching to a function-based approach
@@ -115,8 +115,9 @@ class Cutscene
             return fn!
         return true
 
-    unlock: (room, idx) =>
+    unlock: (i, room, idx) =>
         if i == @currentline
+            love.graphics.print "Unlocking " .. idx, 0, 0
             room\unlock idx
             @nextLine!
         return true

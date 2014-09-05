@@ -17,14 +17,14 @@ class Room
         @maxOptionNum    = 1     -- Maximum option for input checks
         @maxItemNum      = 1     -- Maximum item for input checks
         @currentMenu     = nil   -- Menu status (Generic, item etc)
-    addAction:  (name, action) => @actions[string.upper name] = @mkaction action, true
-    addInspect: (item, action) => @inspect[item]              = @mkaction action, true
-    addUse:     (item, action) => @use[item]                  = @mkaction action, true
-    addTake:    (item, action) => @take[item]                 = @mkaction action, true
-    onEnter:          (action) => @entered                    = @mkaction action, false
+    addAction:  (name, action) => @actions[string.upper name] = -> @mkaction action
+    addInspect: (item, action) => @inspect[item]              = -> @mkaction action
+    addUse:     (item, action) => @use[item]                  = -> @mkaction action
+    addTake:    (item, action) => @take[item]                 = -> @mkaction action
+    onEnter:          (action) => @entered                    = -> @mkaction action
 
-    addLocked:  (action) =>
-        table.insert @locked, action
+    addLocked:  (builder, action) =>
+        table.insert @locked, => action builder
         return #@locked
 
     draw: =>
@@ -90,25 +90,20 @@ class Room
                 @selectedItem = 1
                 if @currentMenu ~= "INSPECT" and @currentMenu ~= "USE" and @currentMenu ~= "TAKE"
                     @play @actions[@currentMenu]
+                    @currentMenu = nil
         if Input.isCancel code
             -- Specific menu (goto generic)
             if @currentMenu ~= nil
                 @currentMenu = nil
 
-    mkaction: (action, clear) =>
+    mkaction: (action) =>
         cutbuilder = CutsceneBuilder!
         cutbuilder\setParent self
         action cutbuilder
-        if clear
-            cutbuilder\input!
-            cutbuilder\clear!
         return cutbuilder\cutend!
 
     getGenericActions: =>
         list = {}
-        -- Get all actions
-        for k,v in pairs @actions
-            table.insert list, k
         -- Check for possible INSPECT/USE/TAKE actions
         for k,v in pairs @inspect
             table.insert list, "INSPECT"
@@ -119,6 +114,9 @@ class Room
         for k,v in pairs @take
             table.insert list, "TAKE"
             break
+        -- Get all other actions
+        for k,v in pairs @actions
+            table.insert list, k
         return list
 
     getSpecificActions: (name) =>
@@ -130,7 +128,7 @@ class Room
         return list
 
     play: (cutscene) =>
-        @currentaction = cutscene
+        @currentaction = cutscene!
         @playingCutscene = true
         @currentaction\atEnd (cut) ->
             @playingCutscene = false
