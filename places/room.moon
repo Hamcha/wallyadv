@@ -13,16 +13,17 @@ onEnter =>
     @line "sized accommodation with one bed."
 
 iblood = locked => inspect "blood stain", =>
-    @line "heaping stain of coagulated blood..."
+    @line "Heaping stain of coagulated blood..."
     @line "well, it is an all female dormatory."
 
 ibed = locked => inspect "bed", =>
-    @line "small twinsized bunkbed, sometimes"
+    @line "Small twinsized bunkbed, sometimes"
     @line "its nice to catch up on some sleep."
 
 usemayo = locked => use "extra large mayonnaise cup", =>
     @line "Game Saved"
     player.vars\set "canSave", true
+    --todo Save!
 
 takemayo = locked => take "extra large mayonnaise cup", =>
     val = math.random 3
@@ -60,6 +61,9 @@ ulap = locked => use "your laptop", =>
     @line "<dx> ok"
     @line "<Hamcha> noted"
     @line "<Hamcha> now go do it"
+    @input!
+    @clear!
+    @line "Oh! So that was what I needed to do!"
 
 ilap = locked => inspect "your laptop", =>
     @line "That keyboard and track pad"
@@ -78,12 +82,11 @@ action "Look Around", =>
     @line "The room is worn,"
     @line "it looks like you've really budgeted,"
     @line "sitting on the desk at the far corner"
-    @line "of the room you see, [your laptop] and"
-    @line "an [extra large mayonnaise cup],"
-    @line "to the right of you, sitting beside a"
-    @line "curtain covered window is your [bed],"
-    @line "beside it a [blood stain],"
-    @line "and [the exit]"
+    @line "of the room you see, your laptop and"
+    @line "an extra large mayonnaise cup,to the"
+    @line "right of you, sitting beside a"
+    @line "curtain covered window is your bed,"
+    @line "beside it a blood stain, and the exit"
     @unlock iblood
     @unlock ibed
     @unlock ilap

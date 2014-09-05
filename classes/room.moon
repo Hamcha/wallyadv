@@ -68,7 +68,7 @@ class Room
     keypressed: (code) =>
         -- Forward to cutscene if there is an active one
         if @playingCutscene
-            @currentaction\next! if Input.isAction code and @currentaction ~= nil
+            @currentaction\next! if Input.isAction code
             return
 
         if @currentMenu == nil
