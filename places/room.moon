@@ -32,7 +32,7 @@ takemayo = locked => take "extra large mayonnaise cup", =>
     player.inventory\add "mayo"
 
 imayo = locked => inspect "extra large mayonnaise cup", =>
-    @line "Your trust extra large mayonaise cup,"
+    @line "Your trusty extra large mayonaise cup,"
     @line "you never leave without it."
     @line "The label says it grants you magical"
     @line "powers. You should try it."
