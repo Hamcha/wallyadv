@@ -13,7 +13,7 @@ class CutsceneBuilder
     sameline:  (txt) => @cutscene\addSameline!
     call:            => @cutscene\addCall!
     unlock:      (i) => @cutscene\addUnlock @parent, i
+    moveto:    (loc) => @cutscene\addMove   states.current, loc
     cutend: =>
         @cutscene\addEnd!
         return @cutscene
-    moveto: => return

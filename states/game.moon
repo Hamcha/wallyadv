@@ -4,38 +4,22 @@ Input     = require "../utils/input"
 
 Game = GameState!
 
-playingCutscene = true
-cutscene = nil
 room = nil
-finished = false
 
 Game.load = =>
-    --cutscene = require "../scripts/intro"
-    --cutscene\atEnd =>
-    if true
-        room = require "../places/room"
-        room\enter!
-        playingCutscene = false
+    @moveTo "intro"
 
 Game.draw = =>
-    -- Playing cutscene? Just forward events
-    if playingCutscene
-        cutscene\draw!
-    else
-        room\draw!
+    room\draw!
 
 Game.update = (dt) =>
-    -- Playing cutscene? Just forward events
-    if playingCutscene
-        cutscene\update dt
-    else
-        room\update dt
+    room\update dt
 
 Game.keypressed = (code) =>
-    -- Playing cutscene? Just forward events
-    if playingCutscene
-        cutscene\next! if Input.isAction code
-    else
-        room\keypressed code
+    room\keypressed code
+
+Game.moveTo = (roomId) =>
+    room = require "../places/" .. roomId
+    room\enter!
 
 Game

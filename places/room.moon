@@ -73,6 +73,8 @@ uexit = locked => use "the exit", =>
     if player.inventory\has "mayo"
         @line "Well I have everything I need,"
         @line "let's go take a look around."
+        @input!
+        @clear!
         @moveto "hallway"
     else
         @line "Woah, woah, I'm forgetting something"
