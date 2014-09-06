@@ -14,7 +14,7 @@ class Cutscene
         @lastlinelength = 0 -- Used for sameline calls
 
     addLine:     (text) => table.insert @lines, (i) -> @line     i, text
-    addSameline: (text) => table.insert @lines, (i) -> @sameline i, text, #@lines
+    addSameline: (text) => table.insert @lines, (i) -> @sameline i, text
     addCall:       (fn) => table.insert @lines, (i) -> @call     i, fn
     addPause:  (amount) => table.insert @lines, (i) -> @pause    i, amount
     addSpeed:  (amount) => table.insert @lines, (i) -> @setspeed i, amount
@@ -91,19 +91,20 @@ class Cutscene
             subline = string.sub line, 0, @timepassed * @charspeed
             love.graphics.print subline, 8 + @offset, @currentScreenLine * 10
             @nextLine! if (string.len subline) >= (string.len line)
+            @lastlinelength = string.len subline
+            return false
         else
         -- If we already "printed" it just draw it
             love.graphics.print line, 8 + @offset, @currentScreenLine * 10
-
-        @lastlinelength = string.len line
+            @lastlinelength = string.len line
         return true
 
-    sameline: (i, line, id) =>
+    sameline: (i, line) =>
         @currentScreenLine -= 1
         @offset = @lastlinelength * 8
-        @line i, line
+        ret = @line i, line
         @offset = 0
-        return true
+        return ret
 
     setspeed: (i, amount) =>
         if i == @currentline

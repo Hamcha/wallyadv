@@ -4,11 +4,9 @@ CutsceneBuilder = require "../utils/cutmaker"
 
 class Room
     new: =>
-        @actions   = {} -- Generic actions ("Look around")
-        @inspect   = {} -- Inspect actions ("Inspect <obj>")
-        @use       = {} -- Use actions     ("Use <obj>")
-        @take      = {} -- Take actions    ("Take <obj>")
-        @locked    = {} -- Locked actions
+        @actions    = {} -- Generic actions ("Look around")
+        @subactions = {} -- Subactions ("Inspect / Talk / Touch")
+        @locked     = {} -- Locked actions
         @entered         = nil   -- OnEnter cutscene
         @currentaction   = nil   -- Current cutscene
         @playingCutscene = false -- Are we playing a cutscene?
@@ -17,11 +15,13 @@ class Room
         @maxOptionNum    = 1     -- Maximum option for input checks
         @maxItemNum      = 1     -- Maximum item for input checks
         @currentMenu     = nil   -- Menu status (Generic, item etc)
-    addAction:  (name, action) => @actions[string.upper name] = -> @mkaction action
-    addInspect: (item, action) => @inspect[item]              = -> @mkaction action
-    addUse:     (item, action) => @use[item]                  = -> @mkaction action
-    addTake:    (item, action) => @take[item]                 = -> @mkaction action
-    onEnter:          (action) => @entered                    = -> @mkaction action
+    onEnter:      (action) => @entered = -> @mkaction action
+    addAction:    (name, action) => @actions[string.upper name] = -> @mkaction action
+    addSubAction: (name) =>
+        uppname = string.upper name
+        @subactions[uppname] = {} unless @subactions[uppname] ~= nil
+        return (item, action) ->
+            @subactions[uppname][item] = -> @mkaction action
 
     addLocked:  (builder, action) =>
         table.insert @locked, => action builder
@@ -83,7 +83,7 @@ class Room
             -- Specific menu
             if @currentMenu ~= nil
                 item = (@getSpecificActions @currentMenu)[@selectedItem]
-                cutscene = @getSpecificCutscene @currentMenu, item
+                cutscene = @subactions[@currentMenu][item]
                 @play cutscene
                 @selectedItem = 1
                 @currentMenu = nil
@@ -92,7 +92,7 @@ class Room
                 actions = @getGenericActions!
                 @currentMenu = actions[@selectedOption]
                 @selectedItem = 1
-                if @currentMenu ~= "INSPECT" and @currentMenu ~= "USE" and @currentMenu ~= "TAKE"
+                if @subactions[@currentMenu] == nil
                     @play @actions[@currentMenu]
                     @selectedOption = 1
                     @currentMenu = nil
@@ -109,16 +109,9 @@ class Room
 
     getGenericActions: =>
         list = {}
-        -- Check for possible INSPECT/USE/TAKE actions
-        for k,v in pairs @inspect
-            table.insert list, "INSPECT"
-            break
-        for k,v in pairs @use
-            table.insert list, "USE"
-            break
-        for k,v in pairs @take
-            table.insert list, "TAKE"
-            break
+        -- Check for possible subactions
+        for k,v in pairs @subactions
+            table.insert list, k if #@subactions[k] > 0
         -- Get all other actions
         for k,v in pairs @actions
             table.insert list, k
@@ -126,17 +119,8 @@ class Room
 
     getSpecificActions: (name) =>
         list = {}
-        switch name
-            when "INSPECT" then table.insert list, k for k,v in pairs @inspect
-            when "USE"     then table.insert list, k for k,v in pairs @use
-            when "TAKE"    then table.insert list, k for k,v in pairs @take
+        table.insert list, k for k,v in pairs @subactions[name]
         return list
-
-    getSpecificCutscene: (action, item) =>
-        switch action
-            when "INSPECT" then @inspect[item]
-            when "USE"     then @use[item]
-            when "TAKE"    then @take[item]
 
     play: (cutscene) =>
         @currentaction = cutscene!
