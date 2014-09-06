@@ -3,10 +3,13 @@ import
     \onEnter
     \action
     \inspect
-    \use
-    \take
+    \subaction
     \locked
     from (require "../utils/roomaker")!
+
+inspect = subaction "inspect"
+use     = subaction "use"
+take    = subaction "take"
 
 onEnter =>
     @line "You are standing in a small hotel"

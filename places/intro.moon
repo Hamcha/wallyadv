@@ -9,7 +9,9 @@ onEnter =>
 
     @line!
     @line "You've finished unpacking most of"
-    @line "your belongings... well the ones you"
+    @line "your belongings... "
+    @pause 0.5
+    @sameline "Well, the ones you"
     @line "brought with you for your three weeks"
     @line "stay."
     @input!
