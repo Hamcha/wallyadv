@@ -2,10 +2,12 @@ import
     \roomend
     \onEnter
     \action
-    \inspect
-    \use
+    \subaction
     \locked
     from (require "../utils/roomaker")!
+
+inspect = subaction "inspect"
+use     = subaction "use"
 
 ustairway = locked => use "stairway", =>
     @line "You take the stairwell down to"
