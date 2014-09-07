@@ -9,7 +9,7 @@ class Cutscene
         @charspeed   = 25   -- How many character per second
         @maxinput    = 0    -- Where we have come so far
         @finished    = nil  -- On Cutscene Ended callback
-        @color       = 15   -- Text color
+        @textcolor   = 15   -- Text color
         @offset      = 0    -- Offset for sameline calls
         @lastlinelength = 0 -- Used for sameline calls
 
@@ -18,6 +18,7 @@ class Cutscene
     addCall:       (fn) => table.insert @lines, (i) -> @call     i, fn
     addPause:  (amount) => table.insert @lines, (i) -> @pause    i, amount
     addSpeed:  (amount) => table.insert @lines, (i) -> @setspeed i, amount
+    addColor:     (idx) => table.insert @lines, (i) -> @color    i, idx
     addClear:  => table.insert @lines, (i) -> @clear i
     addInput:  => table.insert @lines, (i) -> @input i
     addEnd:    => table.insert @lines, (i) -> @cutend!
@@ -28,6 +29,7 @@ class Cutscene
         --todo Consider switching to a function-based approach
         @currentInputState = 0
         @currentScreenLine = 0
+        @color 15
         for i, line in ipairs @lines
             continue if i < @clearpos -- Too soon? Go ahead!
             break if i > @currentline -- Too far?  Go out!
@@ -84,8 +86,8 @@ class Cutscene
 
     line: (i, line) =>
         line = "" if line == nil
-        love.graphics.setColor @color   -- Set text color
-        @currentScreenLine += 1         -- Advance one line
+        love.graphics.setColor @textcolor -- Set text color
+        @currentScreenLine += 1           -- Advance one line
         -- Is it the current line? (Typewriter logic)
         if i == @currentline
             subline = string.sub line, 0, @timepassed * @charspeed
@@ -126,4 +128,10 @@ class Cutscene
     moveto: (i, game, room) =>
         if i == @currentline
             game\moveTo room
+        return true
+
+    color: (i, idx) =>
+        if i == @currentline
+            @nextLine!
+        @textcolor = idx
         return true

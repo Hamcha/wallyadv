@@ -85,13 +85,15 @@ uexit = locked use, "the exit", =>
 
 action "Look Around", =>
     @line "The room is worn,"
-    @line "it looks like you've really budgeted,"
-    @line "sitting on the desk at the far corner"
-    @line "of the room you see, your laptop and"
-    @line "an extra large mayonnaise cup, to the"
-    @line "right of you, sitting beside a"
-    @line "curtain covered window is your bed,"
-    @line "beside it a blood stain, and the exit"
+    @pause 0.4
+    @sameline " it looks like you've"
+    @line "really budgeted, sitting on the desk"
+    @line "at the far corner of the room you see"
+    @line "your laptop and, an extra large"
+    @line "mayonnaise cup, to the right of you,"
+    @line "sitting beside a curtain covered"
+    @line "window is your bed, beside it a blood"
+    @line "stain, and the exit"
     @unlock iblood
     @unlock ibed
     @unlock ilap
