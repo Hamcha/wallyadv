@@ -89,19 +89,19 @@ class Cutscene
         -- Is it the current line? (Typewriter logic)
         if i == @currentline
             subline = string.sub line, 0, @timepassed * @charspeed
-            love.graphics.print subline, 8 + @offset, @currentScreenLine * 10
+            love.graphics.print subline, (@offset + 1) * 8, @currentScreenLine * 10
             @nextLine! if (string.len subline) >= (string.len line)
-            @lastlinelength = string.len subline
+            @lastlinelength = @offset + string.len subline
             return false
         else
         -- If we already "printed" it just draw it
-            love.graphics.print line, 8 + @offset, @currentScreenLine * 10
-            @lastlinelength = string.len line
+            love.graphics.print line, (@offset + 1) * 8, @currentScreenLine * 10
+            @lastlinelength = @offset + string.len line
         return true
 
     sameline: (i, line) =>
         @currentScreenLine -= 1
-        @offset = @lastlinelength * 8
+        @offset = @lastlinelength
         ret = @line i, line
         @offset = 0
         return ret

@@ -9,8 +9,8 @@ class CutsceneBuilder
     input:           => @cutscene\addInput!
     line:      (txt) => @cutscene\addLine txt
     pause:     (amt) => @cutscene\addPause amt
-    setspeed:  (amt) => @cutscene\addSpeed!
-    sameline:  (txt) => @cutscene\addSameline!
+    setspeed:  (amt) => @cutscene\addSpeed amt
+    sameline:  (txt) => @cutscene\addSameline txt
     call:            => @cutscene\addCall!
     unlock:      (i) => @cutscene\addUnlock @parent, i
     moveto:    (loc) => @cutscene\addMove   states.current, loc
