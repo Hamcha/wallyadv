@@ -119,7 +119,6 @@ class Cutscene
 
     unlock: (i, room, idx) =>
         if i == @currentline
-            love.graphics.print "Unlocking " .. idx, 0, 0
             room\unlock idx
             @nextLine!
         return true

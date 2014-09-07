@@ -9,19 +9,19 @@ import
 inspect = subaction "inspect"
 use     = subaction "use"
 
-ustairway = locked => use "stairway", =>
+ustairway = locked use,"stairway", =>
     @line "You take the stairwell down to"
     @line "the lobby."
     @input!
     @clear!
     @moveto "lobby"
 
-istarway = locked => inspect "stairway", =>
+istarway = locked inspect, "stairway", =>
     @line "The stairway leads to the lobby of"
     @line "the dormitory."
     @unlock ustairway
 
-uelevator = locked => use "elevator", =>
+uelevator = locked use, "elevator", =>
     @line "You press the button and the elevator"
     @line "makes its way to the second floor and"
     @line "opens, inside is an old lady."
@@ -33,15 +33,15 @@ uelevator = locked => use "elevator", =>
     @clear!
     @moveto "elevator"
 
-ielevator = locked => inspect "elevator", =>
+ielevator = locked inspect, "elevator", =>
     @line "It seems slow, but it also leads"
     @line "to the lobby."
     @unlock uelevator
 
-ulaundry = locked => use "laundry hole", =>
+ulaundry = locked use, "laundry hole", =>
     @moveto "city"
 
-ilaundry = locked => inspect "laundry hole", =>
+ilaundry = locked inspect, "laundry hole", =>
     @line "This likely leads to the laundry room,"
     @line "could be a fun way down to the lobby."
     @unlock ulaundry

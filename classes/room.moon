@@ -4,9 +4,9 @@ CutsceneBuilder = require "../utils/cutmaker"
 
 class Room
     new: =>
-        @actions    = {} -- Generic actions ("Look around")
-        @subactions = {} -- Subactions ("Inspect / Talk / Touch")
-        @locked     = {} -- Locked actions
+        @actions         = {}    -- Generic actions ("Look around")
+        @subactions      = {}    -- Subactions ("Inspect / Talk / Touch")
+        @locked          = {}    -- Locked actions
         @entered         = nil   -- OnEnter cutscene
         @currentaction   = nil   -- Current cutscene
         @playingCutscene = false -- Are we playing a cutscene?
@@ -17,14 +17,13 @@ class Room
         @currentMenu     = nil   -- Menu status (Generic, item etc)
     onEnter:      (action) => @entered = -> @mkaction action
     addAction:    (name, action) => @actions[string.upper name] = -> @mkaction action
-    addSubAction: (name) =>
+    addSubAction: (name, item, action) =>
         uppname = string.upper name
         @subactions[uppname] = {} unless @subactions[uppname] ~= nil
-        return (item, action) ->
-            @subactions[uppname][item] = -> @mkaction action
+        @subactions[uppname][item] = -> @mkaction action
 
-    addLocked:  (builder, action) =>
-        table.insert @locked, => action builder
+    addLocked:  (name, item, action) =>
+        table.insert @locked, -> name item, action
         return #@locked
 
     draw: =>
@@ -37,11 +36,13 @@ class Room
         len = 0
         tlen = 0
         for i, action in ipairs @getGenericActions!
+            -- Set color to white
             love.graphics.setColor 15
             if (@currentMenu == nil and @selectedOption == i) or @currentMenu == action
-                love.graphics.rectangle "fill", 8 + 8 * len, 10 * printline - 2, (string.len action) * 8, 11
+                -- Selection box
+                love.graphics.rectangle "fill", 8 * (len + 1), 10 * printline - 2, (string.len action) * 8, 11
                 love.graphics.setColor 0
-            love.graphics.print action, 8 + 8 * len, 10 * printline
+            love.graphics.print action, 8 * (len + 1), 10 * printline
             len += (string.len action) + 1
             tlen += 1
         @maxOptionNum = tlen
@@ -49,8 +50,10 @@ class Room
         tlen = 0
         printline += 1
         for i, item in ipairs @getSpecificActions @currentMenu
+            -- Set color to white
             love.graphics.setColor 15
             if @selectedItem == i
+                -- Selection arrow
                 love.graphics.print ">", 8, 10 * printline
             love.graphics.print item, 16, 10 * printline
             printline += 1
@@ -71,6 +74,7 @@ class Room
             @currentaction\next! if Input.isAction code
             return
 
+        -- Menu movement (left/right for actions / up/down for subactions)
         if @currentMenu == nil
             @selectedOption -= 1 if code == Input.Left and @selectedOption > 1
             @selectedOption += 1 if code == Input.Right and @selectedOption < @maxOptionNum
@@ -92,6 +96,7 @@ class Room
                 actions = @getGenericActions!
                 @currentMenu = actions[@selectedOption]
                 @selectedItem = 1
+                -- If it's an action play it immediately
                 if @subactions[@currentMenu] == nil
                     @play @actions[@currentMenu]
                     @selectedOption = 1
@@ -111,7 +116,7 @@ class Room
         list = {}
         -- Check for possible subactions
         for k,v in pairs @subactions
-            table.insert list, k if #@subactions[k] > 0
+            table.insert list, k
         -- Get all other actions
         for k,v in pairs @actions
             table.insert list, k
